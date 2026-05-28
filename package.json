@@ -1,0 +1,18 @@
+{
+  "name": "caipu",
+  "version": "1.0.0",
+  "description": "10岁女孩成长菜谱 - 营养健康食谱应用",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000 || python3 -m http.server 8000",
+    "serve": "npx http-server"
+  },
+  "keywords": [
+    "菜谱",
+    "营养",
+    "健康",
+    "儿童"
+  ],
+  "author": "",
+  "license": "MIT"
+}

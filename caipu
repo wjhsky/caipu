@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌸 10岁女孩成长菜谱</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;background:linear-gradient(135deg,#fce4ec 0%,#f3e5f5 50%,#e8eaf6 100%);min-height:100vh;padding:20px}
+.container{max-width:900px;margin:0 auto}
+.header{text-align:center;padding:40px 20px 30px;background:linear-gradient(135deg,#f8bbd0,#ce93d8);border-radius:24px;margin-bottom:30px;box-shadow:0 8px 32px rgba(206,147,216,.3);position:relative;overflow:hidden}
+.header::before{content:'🌸';position:absolute;top:-10px;left:20px;font-size:60px;opacity:.3;animation:float 3s ease-in-out infinite}
+.header::after{content:'✨';position:absolute;top:-10px;right:20px;font-size:60px;opacity:.3;animation:float 3s ease-in-out infinite 1.5s}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.header h1{color:#fff;font-size:2.2em;text-shadow:2px 2px 8px rgba(0,0,0,.1);margin-bottom:8px;letter-spacing:2px}
+.header p{color:rgba(255,255,255,.9);font-size:1.1em}
+.week-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:30px}
+.day-card{background:rgba(255,255,255,.85);backdrop-filter:blur(10px);border-radius:20px;padding:24px 16px;text-align:center;cursor:pointer;transition:all .3s;box-shadow:0 4px 16px rgba(0,0,0,.06);border:2px solid transparent}
+.day-card:hover{transform:translateY(-6px);box-shadow:0 12px 32px rgba(206,147,216,.25)}
+.day-card.active{border-color:#ce93d8;background:#fff;transform:translateY(-6px);box-shadow:0 12px 32px rgba(206,147,216,.3)}
+.day-card .emoji{font-size:2.8em;margin-bottom:10px;display:block}
+.day-card .day-name{font-size:1.1em;font-weight:700;color:#6a1b9a;margin-bottom:4px}
+.day-card .dish-name{font-size:.92em;color:#7b1fa2;margin-bottom:6px}
+.day-card .dish-tag{display:inline-block;padding:3px 12px;border-radius:20px;font-size:.75em;color:#fff;background:linear-gradient(135deg,#f48fb1,#ce93d8)}
+.recipe-detail{background:#fff;border-radius:24px;padding:36px;margin-bottom:30px;box-shadow:0 8px 32px rgba(0,0,0,.06);display:none}
+.recipe-detail.visible{display:block}
+.recipe-header{display:flex;align-items:center;gap:16px;margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid #f3e5f5}
+.recipe-header .big-emoji{font-size:3em}
+.recipe-header .recipe-title{flex:1}
+.recipe-header .recipe-title h2{color:#6a1b9a;font-size:1.6em;margin-bottom:4px}
+.recipe-header .recipe-title .recipe-sub{color:#9c27b0;font-size:.95em}
+.recipe-section{margin-bottom:20px}
+.recipe-section h3{color:#7b1fa2;font-size:1.1em;margin-bottom:12px}
+.ingredient-list{display:flex;flex-wrap:wrap;gap:8px}
+.ingredient-tag{background:linear-gradient(135deg,#fce4ec,#f3e5f5);padding:6px 16px;border-radius:20px;font-size:.9em;color:#6a1b9a;border:1px solid rgba(206,147,216,.2)}
+.step-list{list-style:none;padding:0;counter-reset:step-counter}
+.step-list li{padding:10px 16px 10px 40px;position:relative;color:#4a148c;line-height:1.7;font-size:.95em;background:#faf5ff;border-radius:12px;margin-bottom:8px}
+.step-list li::before{content:counter(step-counter);counter-increment:step-counter;position:absolute;left:12px;top:10px;width:22px;height:22px;background:linear-gradient(135deg,#f48fb1,#ce93d8);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8em;font-weight:600}
+.tips-section{background:linear-gradient(135deg,#fff3e0,#fce4ec);border-radius:20px;padding:28px 32px;margin-bottom:30px;box-shadow:0 4px 16px rgba(0,0,0,.06)}
+.tips-section h3{color:#e65100;font-size:1.2em;margin-bottom:16px}
+.tips-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.tip-item{background:rgba(255,255,255,.7);padding:14px 18px;border-radius:14px;color:#5d4037;font-size:.92em;line-height:1.6;border-left:4px solid #ffab91}
+.tip-item strong{color:#bf360c}
+.footer{text-align:center;color:#9c27b0;font-size:.85em;padding:20px;opacity:.7}
+@media(max-width:600px){.header h1{font-size:1.6em}.week-grid{grid-template-columns:repeat(2,1fr);gap:12px}.day-card{padding:18px 12px}.day-card .emoji{font-size:2.2em}.recipe-detail{padding:24px 18px}.recipe-header{flex-direction:column;text-align:center}.tips-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+<h1>🌱 10岁女孩成长菜谱</h1>
+<p>每天一道菜，吃出聪明与身高 ✨</p>
+</div>
+<div class="week-grid" id="weekGrid"></div>
+<div class="recipe-detail" id="recipeDetail">
+<div class="recipe-header">
+<div class="big-emoji" id="detailEmoji">🍳</div>
+<div class="recipe-title">
+<h2 id="detailTitle">菜名</h2>
+<div class="recipe-sub" id="detailSub">功效说明</div>
+</div>
+</div>
+<div class="recipe-section">
+<h3>🛒 食材清单</h3>
+<div class="ingredient-list" id="detailIngredients"></div>
+</div>
+<div class="recipe-section">
+<h3>👩‍🍳 做法步骤</h3>
+<ol class="step-list" id="detailSteps"></ol>
+</div>
+</div>
+<div class="tips-section">
+<h3>💡 10岁女孩成长营养小贴士</h3>
+<div class="tips-grid">
+<div class="tip-item"><strong>🥛 每天一杯牛奶</strong><br>富含钙质和蛋白质，是骨骼发育的「建筑材料」，建议早晚各一杯。</div>
+<div class="tip-item"><strong>☀️ 每天户外运动1小时</strong><br>跳绳、篮球、游泳等纵向运动最能刺激骨骼生长。</div>
+<div class="tip-item"><strong>😴 保证9-11小时睡眠</strong><br>生长激素在夜间深睡眠时分泌最旺盛，建议21:00前入睡。</div>
+<div class="tip-item"><strong>🥦 均衡饮食多样化</strong><br>蛋白质+钙+锌+维生素D是长高四要素，少吃零食和含糖饮料。</div>
+<div class="tip-item"><strong>💧 每天喝足水</strong><br>促进新陈代谢，帮助营养吸收，建议每天1.2-1.5升水。</div>
+<div class="tip-item"><strong>🧘 保持良好姿势</strong><br>坐姿站姿要挺拔，避免含胸驼背，有助于脊柱正常发育。</div>
+</div>
+</div>
+<div class="footer">🌸 用心搭配每一餐，陪伴宝贝健康成长 🌸</div>
+</div>
+<script>
+var weekGrid=document.getElementById("weekGrid");
+var recipeDetail=document.getElementById("recipeDetail");
+var detailEmoji=document.getElementById("detailEmoji");
+var detailTitle=document.getElementById("detailTitle");
+var detailSub=document.getElementById("detailSub");
+var detailIngredients=document.getElementById("detailIngredients");
+var detailSteps=document.getElementById("detailSteps");
+
+var recipeData=[
+{day:"周一",dish:"西兰花炒虾仁",tag:"补脑强体",emoji:"🥦",sub:"🧠 富含DHA和多种维生素，促进大脑发育",ingredients:["西兰花 200g","鲜虾仁 150g","蒜末 适量","姜片 少许","盐 适量","料酒 1勺","淀粉 1小勺","食用油 适量"],steps:["虾仁洗净，用料酒、盐、淀粉腌制10分钟","西兰花掰成小朵，开水焯烫1分钟，捞出沥干","热锅凉油，爆香蒜末姜片","下虾仁翻炒至变色","加入西兰花快速翻炒均匀","加盐调味，翻炒均匀即可出锅"]},
+{day:"周二",dish:"清蒸鲈鱼",tag:"促进智力发育",emoji:"🐟",sub:"🧠 富含优质蛋白和DHA，是「脑黄金」的天然来源",ingredients:["鲈鱼 1条（约500g）","葱 2根","姜 1块","蒸鱼豉油 2勺","料酒 1勺","盐 适量","食用油 适量"],steps:["鲈鱼处理干净，两面各划三刀，抹上盐和料酒腌制15分钟","盘底铺上姜片和葱段，放上鲈鱼，鱼身上再放姜片","蒸锅水开后放入鱼，大火蒸8-10分钟","蒸好后倒掉盘中的腥水，去掉姜片","铺上葱丝，淋上蒸鱼豉油","烧热油浇在葱丝上，激发出香味即可"]},
+{day:"周三",dish:"包菜炒鸡腿肉",tag:"长高开关",emoji:"🥬",sub:"📏 鸡腿肉富含蛋白质和锌，包菜富含维生素K，促进骨骼生长",ingredients:["鸡腿 2个","包菜（卷心菜） 1/4个","蒜末 适量","生抽 1勺","蚝油 1勺","盐 适量","白胡椒粉 少许","食用油 适量"],steps:["鸡腿去骨切小块，用生抽、白胡椒粉腌制15分钟","包菜切丝，洗净沥干","热锅凉油，下鸡腿肉翻炒至表面金黄","加入蒜末爆香","放入包菜丝大火翻炒至断生","加蚝油、盐调味，翻炒均匀即可出锅"]},
+{day:"周四",dish:"蛤蜊酿虾仁",tag:"增高启动器",emoji:"🐚",sub:"📏 蛤蜊和虾仁双倍蛋白，锌和硒促进生长激素分泌",ingredients:["蛤蜊 12个","虾仁 200g","蛋清 1个","葱姜末 适量","盐 适量","料酒 1勺","白胡椒粉 少许","淀粉 1小勺"],steps:["蛤蜊放入淡盐水中吐沙2小时，洗净后开水烫至开口，捞出沥干","虾仁剁成虾泥，加入蛋清、葱姜末、盐、白胡椒粉、淀粉搅打上劲","将虾泥填入每个蛤蜊中，抹平表面","放入蒸锅，水开后蒸8-10分钟","蒸出的汤汁倒入小锅，加少许盐调味，水淀粉勾薄芡","将芡汁淋在蛤蜊上，撒上葱花即可"]},
+{day:"周五",dish:"香菇蒸鸡腿肉",tag:"促进钙吸收",emoji:"🍄",sub:"💪 香菇富含维生素D，与鸡肉同食促进钙质吸收利用",ingredients:["鸡腿 2个","干香菇 6-8朵","姜丝 适量","葱段 适量","生抽 1勺","蚝油 1勺","料酒 1勺","淀粉 1小勺","盐 适量"],steps:["干香菇提前用温水泡发，去蒂切片（泡香菇的水留用）","鸡腿去骨切块，用生抽、蚝油、料酒、淀粉、盐腌制20分钟","将香菇片和姜丝放入鸡肉中拌匀","装盘，淋上少许泡香菇的水","蒸锅水开后放入，大火蒸15分钟","出锅撒上葱段即可"]},
+{day:"周六",dish:"菠萝牛肉粒",tag:"补血强骨",emoji:"🍍",sub:"🦴 牛肉补铁补血，菠萝富含维生素C促进铁吸收，强健骨骼",ingredients:["牛里脊 250g","菠萝 1/4个","青椒 半个","红椒 半个","生抽 1勺","蚝油 1勺","淀粉 1小勺","盐 适量","食用油 适量"],steps:["牛里脊切小粒，用生抽、蚝油、淀粉腌制15分钟","菠萝切小丁，用淡盐水浸泡5分钟捞出","青红椒切小块","热锅凉油，下牛肉粒快速滑炒至变色盛出","锅中留底油，下青红椒翻炒，再放入菠萝丁翻炒","倒回牛肉粒，加盐调味，快速翻炒均匀即可"]},
+{day:"周日",dish:"番茄肉末水蒸蛋",tag:"增强免疫",emoji:"🍅",sub:"🛡️ 番茄富含番茄红素和VC，鸡蛋提供优质蛋白，双重增强免疫力",ingredients:["鸡蛋 3个","番茄 1个","猪肉末 80g","温水 300ml","盐 适量","生抽 半勺","葱花 适量","食用油 适量"],steps:["鸡蛋打散，加入温水（蛋液:水 ≈ 1:1.5）和少许盐搅匀","用滤网过滤蛋液，去除浮沫","番茄顶部划十字，开水烫后去皮，切小丁","蛋液盖保鲜膜，扎几个小孔，蒸锅水开后蒸12分钟","热锅少油，下肉末炒散，加入番茄丁翻炒出汁，加生抽调味","将番茄肉末浇在蒸好的蛋羹上，撒上葱花即可"]}
+];
+
+function showRecipe(idx){
+  var item=recipeData[idx];
+  var cards=document.querySelectorAll(".day-card");
+  for(var i=0;i<cards.length;i++){cards[i].classList.remove("active");}
+  cards[idx].classList.add("active");
+  detailEmoji.textContent=item.emoji;
+  detailTitle.textContent=item.day+" · "+item.dish;
+  detailSub.textContent=item.sub;
+  detailIngredients.innerHTML="";
+  for(var i=0;i<item.ingredients.length;i++){
+    var span=document.createElement("span");
+    span.className="ingredient-tag";
+    span.textContent=item.ingredients[i];
+    detailIngredients.appendChild(span);
+  }
+  detailSteps.innerHTML="";
+  for(var i=0;i<item.steps.length;i++){
+    var li=document.createElement("li");
+    li.textContent=item.steps[i];
+    detailSteps.appendChild(li);
+  }
+  recipeDetail.classList.remove("visible");
+  void recipeDetail.offsetWidth;
+  recipeDetail.classList.add("visible");
+}
+
+for(var i=0;i<recipeData.length;i++){
+  (function(idx){
+    var item=recipeData[idx];
+    var card=document.createElement("div");
+    card.className="day-card";
+    card.innerHTML='<span class="emoji">'+item.emoji+'</span><div class="day-name">'+item.day+'</div><div class="dish-name">'+item.dish+'</div><span class="dish-tag">'+item.tag+'</span>';
+    card.onclick=function(){showRecipe(idx);};
+    weekGrid.appendChild(card);
+  })(i);
+}
+
+showRecipe(0);
+</script>
+</body>
+</html>
